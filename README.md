@@ -70,10 +70,19 @@ fonts/
 
 | Fonte | Estilo / Vibe | Conjunto Suportado | Formatos | Status |
 | :--- | :--- | :--- | :---: | :---: |
-| *[Em breve]* | *Display / Expressiva* | Básico + Acentuação PT | `.otf`, `.ttf`, `.woff2` | 🟡 *Em desenvolvimento* |
-| *[Em breve]* | *Handwritten / Caligráfica* | Básico | `.otf`, `.ttf` | ⚪ *Planejada* |
+| **[AnoDragonDisplay](fonts/otf/AnoDragonDisplay-Regular.otf)** | *Display Orgânica / Bubble Ultra-Bold* | A-Z, a-z, Acentuação PT, Números, Símbolos, 14 Setas, Emojis, Lírio e Dragão | `.otf`, `.ttf`, `.woff2` | 🟢 **Concluída (v1.0)** |
+| **[AnoDragonDisplay-Core](fonts/otf/AnoDragonDisplay-Core.otf)** | *Núcleo Interno (Camada Cromática)* | Cobertura Unicode idêntica para sobreposição 3D com a base | `.otf`, `.ttf`, `.woff2` | 🟢 **Concluída (v1.0)** |
 
-> *Conforme novas fontes forem produzidas e lapidadas, elas serão listadas nesta tabela com links diretos de download e preview.*
+---
+
+### 🐉 Destaque: A Família *AnoDragonDisplay*
+
+Nascida da vetorização por visão computacional e engenharia reversa do lettering **"ANO"** presente na ilustração original do dragão oriental:
+
+- **DNA Tipográfico:** Silhueta inflada *ultra-bold*, terminais orgânicos e a marcante assinatura dos **contragrafismos em micro-círculos (*pinpoint counters*)** no terço superior de todas as letras fechadas (`A`, `B`, `D`, `O`, `P`, `Q`, `R`, `a`, `b`, `d`, `e`, `g`, `o`, `p`, `q`, `0`, `4`, `6`, `8`, `9`, `@`).
+- **Sistema Cromático em Camadas:** Use a variante `Regular` (silhueta/contorno creme `#DCE29F`) combinada com a variante `Core` (núcleo verde-oliva `#262D13`) para obter exatamente o acabamento tridimensional da arte original!
+- **Easter Eggs Temáticos:** Inclui os glifos especiais de **Flor de Lírio** (`✿` `U+273F`) e **Dragão Oriental** (`🐉` `U+1F409`).
+- **Espécime Visual Interativo:** Abra [specimens/specimen.html](specimens/specimen.html) no navegador para testar digitação ao vivo, comparar com a arte original e explorar o mapa de caracteres.
 
 ---
 
@@ -81,7 +90,7 @@ fonts/
 
 ### No Computador (Desktop)
 1. Acesse a pasta `fonts/otf` ou `fonts/ttf`.
-2. Baixe o arquivo da fonte desejada (ex: `NomeDaFonte-Regular.otf`).
+2. Baixe o arquivo desejado (ex: [AnoDragonDisplay-Regular.otf](fonts/otf/AnoDragonDisplay-Regular.otf)).
 3. Dê dois cliques no arquivo baixado e clique em **Instalar Fonte** (Windows / macOS / Linux).
 4. A fonte estará disponível no Photoshop, Illustrator, Figma, Canva, Word, etc.
 
@@ -90,15 +99,34 @@ Copie o arquivo `.woff2` da pasta `fonts/web/` para seu projeto e declare no seu
 
 ```css
 @font-face {
-  font-family: 'NomeDaFonte';
-  src: url('./fonts/web/NomeDaFonte.woff2') format('woff2');
-  font-weight: normal;
+  font-family: 'AnoDragonDisplay';
+  src: url('./fonts/web/AnoDragonDisplay-Regular.woff2') format('woff2');
+  font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
 
-body {
-  font-family: 'NomeDaFonte', sans-serif;
+@font-face {
+  font-family: 'AnoDragonDisplay-Core';
+  src: url('./fonts/web/AnoDragonDisplay-Core.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Efeito cromático idêntico à arte original */
+.dragao-lettering {
+  font-family: 'AnoDragonDisplay', sans-serif;
+  color: #dce29f; /* contorno creme */
+  position: relative;
+}
+.dragao-lettering::after {
+  content: attr(data-text);
+  font-family: 'AnoDragonDisplay-Core', sans-serif;
+  color: #222912; /* núcleo verde-oliva */
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 ```
 
@@ -123,3 +151,4 @@ As fontes e materiais gráficos deste repositório são protegidos por direitos 
 <p align="center">
   Feito com amor, café e muita ponta de caneta ✒️✨
 </p>
+

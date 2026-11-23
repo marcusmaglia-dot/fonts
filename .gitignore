@@ -10,6 +10,7 @@ Desktop.ini
 *.swp
 *.swo
 *~
+.venv/
 
 # Backups de softwares tipográficos e vetoriais
 *.glyphs.bak
@@ -24,3 +25,4 @@ autosave/
 dist/
 build/
 node_modules/
+

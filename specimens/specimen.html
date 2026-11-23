@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnoDragonDisplay — Espécime Tipográfico Interativo</title>
+  <style>
+    @font-face {
+      font-family: 'AnoDragonDisplay';
+      src: url('../fonts/web/AnoDragonDisplay-Regular.woff2') format('woff2'),
+           url('../fonts/ttf/AnoDragonDisplay-Regular.ttf') format('truetype');
+      font-weight: 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #0d0f0c;
+      --card-bg: #161a14;
+      --border: #2c3325;
+      --olive-dark: #222912;
+      --cream: #dce29f;
+      --cream-glow: rgba(220, 226, 159, 0.25);
+      --dragon-red: #c93b2b;
+      --text: #eaeede;
+      --muted: #8e9981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 40px 24px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .badge-pill {
+      display: inline-block;
+      padding: 6px 16px;
+      background: var(--olive-dark);
+      color: var(--cream);
+      border: 1px solid var(--cream);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'AnoDragonDisplay', sans-serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      color: var(--cream);
+      text-shadow: 0 0 25px var(--cream-glow);
+      line-height: 1.05;
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.15rem;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      color: var(--cream);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Comparison Box */
+    .compare-container {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px dashed var(--border);
+    }
+
+    .compare-item {
+      text-align: center;
+      flex: 1;
+    }
+
+    .compare-item img {
+      max-height: 180px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .compare-text {
+      font-family: 'AnoDragonDisplay', sans-serif;
+      font-size: 5rem;
+      color: var(--cream);
+      line-height: 1;
+    }
+
+    .caption {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Interactive Playground */
+    .playground {
+      margin-bottom: 40px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 20px;
+      background: var(--olive-dark);
+      padding: 14px 20px;
+      border-radius: 12px;
+    }
+
+    .controls label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--cream);
+    }
+
+    .controls input[type="range"] {
+      flex: 1;
+      min-width: 150px;
+      accent-color: var(--cream);
+    }
+
+    .preview-box {
+      font-family: 'AnoDragonDisplay', sans-serif;
+      min-height: 180px;
+      padding: 24px;
+      background: #050705;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      word-break: break-word;
+      transition: all 0.2s;
+    }
+
+    .preview-box:focus {
+      border-color: var(--cream);
+      box-shadow: 0 0 15px var(--cream-glow);
+    }
+
+    /* Glyph Matrix */
+    .glyph-section {
+      margin-bottom: 30px;
+    }
+
+    .glyph-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .glyph-box {
+      font-family: 'AnoDragonDisplay', sans-serif;
+      width: 58px;
+      height: 58px;
+      background: #000;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      color: var(--cream);
+      transition: transform 0.15s, border-color 0.15s;
+    }
+
+    .glyph-box:hover {
+      transform: scale(1.18);
+      border-color: var(--cream);
+      background: var(--olive-dark);
+      z-index: 2;
+    }
+
+    .easter-egg-banner {
+      background: linear-gradient(135deg, var(--olive-dark), #10160a);
+      border: 2px solid var(--cream);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .easter-egg-banner h3 {
+      font-size: 1.3rem;
+      color: var(--cream);
+      margin-bottom: 8px;
+    }
+
+    .special-glyphs {
+      font-family: 'AnoDragonDisplay', sans-serif;
+      font-size: 3.5rem;
+      color: var(--cream);
+      margin: 12px 0;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="badge-pill">Display Orgânica • Handcrafted • Ultra-Bold</div>
+    <h1>AnoDragonDisplay</h1>
+    <p class="subtitle">Tipografia autoral concebida a partir de ilustração manual em nanquim e pintura digital. Com micro-contragrafismos circulares (pinpoint counters) e energia bubble-graffiti.</p>
+  </header>
+
+  <div class="grid-2">
+    <!-- Comparison -->
+    <div class="card">
+      <h2>🔍 Comparação: Arte Original vs. Glifos Vetoriais</h2>
+      <div class="compare-container">
+        <div class="compare-item">
+          <img src="../sources/drawings/ano_extracted.png" alt="Original ANO" onerror="this.src='../sources/drawings/roi_preview.png'">
+          <div class="caption">Lettering da Ilustração</div>
+        </div>
+        <div class="compare-item">
+          <div class="compare-text">ANO</div>
+          <div class="caption">Fonte Vetorial (.woff2)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Font DNA Specs -->
+    <div class="card">
+      <h2>🧬 DNA & Métricas Tipográficas</h2>
+      <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: var(--text);">
+        <li>📐 <strong>Units Per Em (UPM):</strong> 1000</li>
+        <li>📏 <strong>Cap Height:</strong> 720 | <strong>x-Height:</strong> 520</li>
+        <li>⛰️ <strong>Ascender:</strong> 800 | <strong>Descender:</strong> -200</li>
+        <li>🎯 <strong>Assinatura:</strong> Contragrafismos em micro-círculos posicionados no terço superior óptico.</li>
+        <li>📦 <strong>Formatos Exportados:</strong> .otf, .ttf, .woff2 (Web)</li>
+        <li>🔤 <strong>Suporte Linguístico:</strong> Português e Latin-1 completo, Diacríticos, Moedas (R$, $, €, £, ¥), Setas e Emojis.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Interactive Playground -->
+  <div class="card playground">
+    <h2>⚡ Playground Interativo (Digite seu texto)</h2>
+    <div class="controls">
+      <label for="font-size">Tamanho:</label>
+      <input type="range" id="font-size" min="24" max="120" value="64">
+      <span id="size-val">64px</span>
+
+      <label for="color-picker" style="margin-left: 20px;">Cor:</label>
+      <input type="color" id="color-picker" value="#dce29f">
+    </div>
+
+    <div class="preview-box" id="preview" contenteditable="true" spellcheck="false">
+      1º ANO DO DRAGÃO 2026
+    </div>
+  </div>
+
+  <!-- Complete Glyph Matrix -->
+  <div class="card">
+    <h2>📚 Catálogo Completo de Caracteres</h2>
+
+    <div class="glyph-section">
+      <h3 style="font-size: 13px; color: var(--muted); text-transform: uppercase;">Maiúsculas (A-Z)</h3>
+      <div class="glyph-grid" id="grid-upper"></div>
+    </div>
+
+    <div class="glyph-section" style="margin-top: 20px;">
+      <h3 style="font-size: 13px; color: var(--muted); text-transform: uppercase;">Minúsculas (a-z)</h3>
+      <div class="glyph-grid" id="grid-lower"></div>
+    </div>
+
+    <div class="glyph-section" style="margin-top: 20px;">
+      <h3 style="font-size: 13px; color: var(--muted); text-transform: uppercase;">Acentuadas & Diacríticos (Português)</h3>
+      <div class="glyph-grid" id="grid-accents"></div>
+    </div>
+
+    <div class="glyph-section" style="margin-top: 20px;">
+      <h3 style="font-size: 13px; color: var(--muted); text-transform: uppercase;">Números & Frações</h3>
+      <div class="glyph-grid" id="grid-numbers"></div>
+    </div>
+
+    <div class="glyph-section" style="margin-top: 20px;">
+      <h3 style="font-size: 13px; color: var(--muted); text-transform: uppercase;">Pontuação & Símbolos Especiais</h3>
+      <div class="glyph-grid" id="grid-symbols"></div>
+    </div>
+
+    <div class="glyph-section" style="margin-top: 20px;">
+      <h3 style="font-size: 13px; color: var(--muted); text-transform: uppercase;">Setas Direcionais (14 Direções)</h3>
+      <div class="glyph-grid" id="grid-arrows"></div>
+    </div>
+
+    <div class="glyph-section" style="margin-top: 20px;">
+      <h3 style="font-size: 13px; color: var(--muted); text-transform: uppercase;">Emojis & Pictogramas</h3>
+      <div class="glyph-grid" id="grid-emojis"></div>
+    </div>
+  </div>
+
+  <!-- Easter Egg Banner -->
+  <div class="easter-egg-banner">
+    <h3>🌸 Ornamentos Temáticos Especiais (Easter Eggs) 🐉</h3>
+    <p style="color: var(--muted); font-size: 14px;">Incluídos nos pontos de código Unicode de flor de lírio e dragão:</p>
+    <div class="special-glyphs">
+      <span title="Lírio Amarelo (U+273F)">✿</span>
+      <span title="Dragão Oriental (U+1F409)">🐉</span>
+    </div>
+    <p style="font-size: 13px; color: var(--cream);">Copie e cole ou use os caracteres <code>✿</code> e <code>🐉</code> em seus designs!</p>
+  </div>
+
+  <footer>
+    <p>AnoDragonDisplay Regular • Tipografia Autoral por Marcus Maglia • 2026</p>
+  </footer>
+</div>
+
+<script>
+  // Playground sizing
+  const slider = document.getElementById('font-size');
+  const sizeVal = document.getElementById('size-val');
+  const preview = document.getElementById('preview');
+  const colorPicker = document.getElementById('color-picker');
+
+  slider.addEventListener('input', (e) => {
+    preview.style.fontSize = e.target.value + 'px';
+    sizeVal.textContent = e.target.value + 'px';
+  });
+
+  colorPicker.addEventListener('input', (e) => {
+    preview.style.color = e.target.value;
+  });
+
+  // Populate glyph sets
+  const sets = {
+    'grid-upper': 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
+    'grid-lower': 'abcdefghijklmnopqrstuvwxyz'.split(''),
+    'grid-accents': 'ÁÀÂÃÄÅÆÇÉÊËÍÌÎÏÑÓÔÕÖØÙÚÛÜÝŸßáàâãäåæçéêëíìîïñóôõöøùúûüýÿ'.split(''),
+    'grid-numbers': '0123456789½¼¾¹²³'.split(''),
+    'grid-symbols': '.,:;!¡?¿'"“”«»()[]{}/\|-_…•@#&*%$¢£€¥+×÷=≠<>~°©®™'.split(''),
+    'grid-arrows': ['←', '↑', '→', '↓', '↔', '↕', '↖', '↗', '↘', '↙', '➔', '➜', '↻', '↺'],
+    'grid-emojis': ['☺', '☻', '☹', '♥', '♡', '★', '☆', '✦', '✨', '☀', '☁', '⚡', '🔥', '♪', '♫', '✓', '✗', '▲', '▼', '◀', '▶', '●', '○', '■', '◆', '✿', '🐉']
+  };
+
+  for (const [id, list] of Object.entries(sets)) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    list.forEach(char => {
+      const b = document.createElement('div');
+      b.className = 'glyph-box';
+      b.textContent = char;
+      b.title = `${char} (U+${char.codePointAt(0).toString(16).toUpperCase()})`;
+      b.onclick = () => {
+        preview.textContent += char;
+      };
+      el.appendChild(b);
+    });
+  }
+</script>
+
+</body>
+</html>
